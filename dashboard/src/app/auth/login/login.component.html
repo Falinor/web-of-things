@@ -1,0 +1,21 @@
+<header>
+  <h1>Log in</h1>
+</header>
+<section>
+  <form class="octo-login-form" [formGroup]="loginForm" (submit)="logIn()" novalidate>
+    <md-input-container>
+      <input mdInput formControlName="username" placeholder="Username" type="text" required>
+      <md-hint *ngIf="controls['username'].dirty && controls['username'].hasError('required')">This field is required</md-hint>
+    </md-input-container>
+    <md-input-container>
+      <input mdInput formControlName="password" placeholder="Password" type="password" required>
+      <md-hint *ngIf="controls['password'].dirty && controls['password'].hasError('required')">This field is required</md-hint>
+    </md-input-container>
+    <button type="submit" [disabled]="loginForm.pristine || loginForm.invalid || submitted" md-raised-button color="accent">
+      {{ submitted ? 'Submitted' : 'Submit' }}
+    </button>
+  </form>
+</section>
+<footer>
+
+</footer>
