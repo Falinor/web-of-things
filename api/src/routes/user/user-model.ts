@@ -11,6 +11,7 @@ const userSchema: Schema = new Schema({
   // Not required because only admins can connect
   // and therefore have a password
   password: String,
+  displayName: String,
   roles: {
     type: String,
     required: true,
@@ -18,9 +19,11 @@ const userSchema: Schema = new Schema({
     default: 'user',
     enum: ['user', 'admin']
   }
+}, {
+  timestamps: true
 });
 
 // Init User model
 model('User', userSchema);
 
-export const User: Model<Document> = model('User');
+export const UserDAO: Model<Document> = model('User');

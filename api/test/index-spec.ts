@@ -1,3 +1,4 @@
+/*
 import { expect } from 'chai';
 import { Greeter } from '../src/index';
 
@@ -6,3 +7,4 @@ describe('index', () => {
     expect(Greeter).to.not.be.undefined;
   });
 });
+*/
