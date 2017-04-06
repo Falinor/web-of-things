@@ -2,7 +2,11 @@ version: '3'
 
 services:
   web:
-    build: ./front
+    build:
+      context: ./dashboard
+      dockerfile: .docker/Dockerfile
 
   api:
-    build: ./api
+    build:
+      context: ./api
+      dockerfile: .docker/Dockerfile

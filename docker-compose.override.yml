@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  web:
+    container_name: wot-authorization-server-web
+    entrypoint: yarn start
+    volumes:
+      - ./dashboard/src:/code/src
+    links:
+      - api
+    ports:
+      - "$WEB_PORT:4200"
+
+  api:
+    container_name: wot-authorization-server-api
+    entrypoint: yarn start
+    volumes:
+      - ./api/src:/code/src
+    links:
+      - db
+    ports:
+      - "$API_PORT:3000"
+    environment:
+      - DB_URI=mongodb://db/$DB_NAME
+ 
+  db:
+    container_name: wot-authorization-server-db
+    image: mongo:latest
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:
+    driver: local
