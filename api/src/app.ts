@@ -4,7 +4,8 @@ import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import { config } from './config/config';
-import { routes } from './routes/routes';
+import { clientError, logError, notFound } from './middlewares/index';
+import { indexRoutes, userRoutes } from './models/index';
 
 // Init application
 const app: express.Express = express();
@@ -19,10 +20,16 @@ app.use(urlencoded({ extended: true }));
 // Security
 app.use(helmet());
 
-app.use(routes);
+// Routes
+app.use('/', indexRoutes);
+app.use('/users', userRoutes);
+
+app.use(notFound());
+app.use(logError());
+app.use(clientError());
 
 app.listen(config.app.port, () => {
-  // console.log(`Listening on ${config.app.port}`);
+  console.log(`Listening on ${config.app.port}`);
 });
 
 export { app };

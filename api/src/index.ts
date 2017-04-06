@@ -1,2 +1,2 @@
-export * from './routes/index';
+export * from './models/index';
 export * from './app';

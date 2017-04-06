@@ -11,12 +11,13 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
+  "main": "dist/app.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
+    "start": "ts-node src/index.ts",
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts'",
     "coverage": "nyc --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register",
     "watch": "npm run build -- --watch",

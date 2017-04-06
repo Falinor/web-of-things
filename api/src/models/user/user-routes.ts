@@ -1,10 +1,10 @@
 import { Router } from 'express';
 
-import { findAll } from './user-controller';
+import { list } from './user-controller';
 
 const userRoutes: Router = Router();
 
 // Routes
-userRoutes.get('/', findAll);
+userRoutes.get('/', list);
 
 export { userRoutes };

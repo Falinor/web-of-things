@@ -1,6 +1,6 @@
 export const config = {
   app: {
-    domain: process.env.APP_DOMAIN,
+    domain: process.env.APP_DOMAIN || 'http://localhost',
     port: process.env.APP_PORT || 3000
   },
   db: {
