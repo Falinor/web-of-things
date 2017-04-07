@@ -37,7 +37,7 @@ const config = {
   },
   test: {
     mongo: {
-      uri: 'mongodb://localhost/wot-authorization-server-api-test',
+      uri: process.env.MONGODB_URI || 'mongodb://localhost/wot-authorization-server-api-test',
       options: {
         debug: false
       }
@@ -45,7 +45,7 @@ const config = {
   },
   development: {
     mongo: {
-      uri: 'mongodb://localhost/wot-authorization-server-api-dev',
+      uri: process.env.MONGODB_URI || 'mongodb://localhost/wot-authorization-server-api-dev',
       options: {
         debug: true
       }
