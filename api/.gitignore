@@ -1,4 +1,13 @@
-coverage/
-node_modules/
+.DS_Store
+node_modules
+public
+.tmp
+.idea
+.log
+dist
+docs
+.env
 npm-debug.log
 .nyc_output
+coverage
+cassettes
