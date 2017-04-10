@@ -18,4 +18,4 @@ import { AuthGuard } from '../core/auth.guard';
   declarations: [LoginComponent],
   providers: [AuthGuard]
 })
-export class AuthModule { }
+export class AuthModule {}
