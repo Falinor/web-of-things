@@ -7,5 +7,7 @@ ENV APP /code
 RUN mkdir -p $APP
 WORKDIR $APP
 
+COPY package.json yarn.lock $APP/
+RUN yarn install
+
 COPY . $APP
-RUN npm install
