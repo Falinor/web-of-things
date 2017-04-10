@@ -3,7 +3,7 @@ version: '3'
 services:
   web:
     container_name: wot-authorization-server-web
-    entrypoint: yarn start
+    entrypoint: npm start
     volumes:
       - ./dashboard/src:/code/src
     links:
@@ -15,7 +15,7 @@ services:
 
   api:
     container_name: wot-authorization-server-api
-    entrypoint: yarn start
+    entrypoint: npm start
     volumes:
       - ./api/src:/code/src
     links:

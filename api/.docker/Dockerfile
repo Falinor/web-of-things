@@ -1,6 +1,6 @@
 FROM node:latest
 
-MAINTAINER Andrea Gueugnaut <agueugnaut@octo.com>
+LABEL maintainer "Andrea Gueugnaut <agueugnaut@octo.com>"
 
 ENV APP /code
 
@@ -8,4 +8,4 @@ RUN mkdir -p $APP
 WORKDIR $APP
 
 COPY . $APP
-RUN yarn
+RUN npm install

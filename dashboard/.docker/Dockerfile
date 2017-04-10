@@ -1,6 +1,6 @@
 FROM node:boron
 
-MAINTAINER Andrea Gueugnaut <agueugnaut@octo.com>
+LABEL maintainer "Andrea Gueugnaut <agueugnaut@octo.com>"
 
 ENV APP /code
 
