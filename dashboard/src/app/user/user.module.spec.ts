@@ -1,4 +1,4 @@
-import UserModule from './user.module';
+import { UserModule } from './user.module';
 
 describe('UserModule', () => {
   let userModule;
@@ -9,5 +9,5 @@ describe('UserModule', () => {
 
   it('should create an instance', () => {
     expect(userModule).toBeTruthy();
-  })
+  });
 });

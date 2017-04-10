@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { User, UserService } from '../shared/index';
+import { User, UserService } from '../../core';
 
 @Component({
   selector: 'octo-user-list',
