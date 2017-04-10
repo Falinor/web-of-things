@@ -1,4 +1,6 @@
 import http from 'http'
+import passport from 'passport';
+
 import { env, mongo, port, ip } from './config'
 import mongoose from './services/mongoose'
 import express from './services/express'
@@ -8,6 +10,8 @@ const app = express(api)
 const server = http.createServer(app)
 
 mongoose.connect(mongo.uri)
+
+passport.initialize();
 
 setImmediate(() => {
   server.listen(port, ip, () => {
