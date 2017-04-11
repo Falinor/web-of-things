@@ -4,8 +4,8 @@
 <section>
   <form class="octo-login-form" [formGroup]="loginForm" (submit)="logIn()" novalidate>
     <md-input-container>
-      <input mdInput formControlName="username" placeholder="Username" type="text" required>
-      <md-hint *ngIf="controls['username'].dirty && controls['username'].hasError('required')">This field is required</md-hint>
+      <input mdInput formControlName="email" placeholder="Email" type="email" required>
+      <md-hint *ngIf="controls['email'].dirty && controls['email'].hasError('required')">This field is required</md-hint>
     </md-input-container>
     <md-input-container>
       <input mdInput formControlName="password" placeholder="Password" type="password" required>
