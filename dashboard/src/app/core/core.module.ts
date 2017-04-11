@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
+import { Http, RequestOptions } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 
-import { AuthGuard } from './auth.guard';
+import { authHttpServiceFactory, AuthGuard, AuthService } from './auth';
 import { UserService } from './user.service';
 
 @NgModule({
-  imports: [],
+  imports: [
+  ],
   providers: [
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    },
     AuthGuard,
+    AuthService,
     UserService
   ]
 })

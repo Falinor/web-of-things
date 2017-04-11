@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 
 import { User } from './user.model';
 import { Service } from '../shared/index';
@@ -10,8 +10,8 @@ const ENDPOINT = 'users';
 @Injectable()
 export class UserService extends Service<User> {
 
-  constructor(protected http: Http) {
-    super(http, ENDPOINT);
+  constructor(protected authHttp: AuthHttp) {
+    super(authHttp, ENDPOINT);
   }
 
 }
