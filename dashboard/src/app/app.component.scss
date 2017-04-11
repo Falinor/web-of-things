@@ -1,0 +1,21 @@
+$navbar-background: #333;
+
+.octo-navbar {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 64px;
+  background: $navbar-background
+}
+
+.octo-navbar__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-grow: 1;
+}
+
+md-icon {
+  color: #fff;
+}

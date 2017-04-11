@@ -1,24 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { MaterialModule } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { CoreModule } from './core';
 import { DashboardModule } from './dashboard';
-import { ErrorModule } from './error';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 
-// TODO(remove)
-import {Router} from '@angular/router';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
+    MaterialModule,
 
     CoreModule,
     DashboardModule,
-    ErrorModule,
     AppRoutingModule
   ],
   declarations: [
@@ -29,6 +29,8 @@ import {Router} from '@angular/router';
 })
 export class AppModule {
   constructor(router: Router) {
-    console.log(`Routes: ${JSON.stringify(router.config, undefined, 2)}`);
+    if (!environment.production) {
+      console.log(`Routes: ${JSON.stringify(router.config, undefined, 2)}`);
+    }
   }
 }
