@@ -7,12 +7,10 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      {
-        // TODO: user here
-      }
+      { path: 'users', loadChildren: 'app/user/user.module#UserModule' },
+      { path: '', component: DashboardComponent },
     ]
   },
-  { path: 'users', loadChildren: 'app/user/user.module#UserModule', outlet: 'dash' }
 ];
 
 @NgModule({
