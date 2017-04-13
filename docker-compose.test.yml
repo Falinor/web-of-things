@@ -3,8 +3,6 @@ version: '3'
 services:
 
   web:
-    env_file:
-      - .test.env
     container_name: wot-authorization-server-web-test
     entrypoint: yarn
     command: test
@@ -16,13 +14,11 @@ services:
       - NODE_ENV=test
 
   api:
-    env_file:
-      - .test.env
-    container_name: wot-authorization-server-api
+    container_name: wot-authorization-server-api-test
     entrypoint: yarn
-    command: test
+    command: coverage
     links:
-      - db
+      - dbtest
     ports:
       - "$API_PORT:$API_PORT"
     environment:
@@ -33,13 +29,11 @@ services:
       - JWT_SECRET
  
   dbtest:
-    env_file:
-      - .test.env
-    container_name: wot-authorization-server-db
+    container_name: wot-authorization-server-db-test
     image: mongo:latest
     volumes:
-      - mongodata:/data/db
+      - mongodatatest:/data/db
 
 volumes:
-  mongodata:
+  mongodatatest:
     driver: local
