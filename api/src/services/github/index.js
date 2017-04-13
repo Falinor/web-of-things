@@ -17,7 +17,7 @@ const emailRequest = (accessToken) => request({
   }
 })
 
-export const getUser = (accessToken) =>
+export function getUser(accessToken) {
   Promise.all([userRequest(accessToken), emailRequest(accessToken)])
     .spread((responseOfUserReq, responseOfEmailReq) => ({
       service: 'github',
@@ -25,4 +25,5 @@ export const getUser = (accessToken) =>
       name: responseOfUserReq.login,
       email: responseOfEmailReq[0].email,
       picture: responseOfUserReq.avatar_url
-    }))
+    }));
+}
