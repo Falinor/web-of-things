@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.builder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      key: ['', Validators.required]
     });
   }
 
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     // Log in
     this.authService
-      .logIn(this.loginForm.value.email, this.loginForm.value.password)
+      .logIn(this.values.email, this.values.password, this.values.key)
       .subscribe(
         () => this.redirect(this.authService.redirectUrl),
         (err: Error) => this.error = err.message
@@ -49,6 +50,10 @@ export class LoginComponent implements OnInit {
 
   get controls() {
     return this.loginForm.controls;
+  }
+
+  get values() {
+    return this.loginForm.value;
   }
 
 }

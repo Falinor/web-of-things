@@ -17,9 +17,8 @@ export class AuthService {
     return tokenNotExpired();
   }
 
-  logIn(email: string, password: string): Observable<User | Error> {
-    const masterKey = 'yhJys5W1YMGGrkJkP6R3hEUcyRqvdz5B';
-    return this.http.post('/api/auth', { email, password, masterKey })
+  logIn(email: string, password: string, key: string): Observable<User | Error> {
+    return this.http.post('/api/auth', { email, password, key })
       .map(json)
       .do(this.saveToken)
       .catch(error);
@@ -27,6 +26,7 @@ export class AuthService {
 
   private saveToken(result: UserWithToken): void {
     // TODO: do something with result
+    // Set tokenName
   }
 
 }

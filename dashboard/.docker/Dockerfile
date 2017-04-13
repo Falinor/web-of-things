@@ -10,4 +10,6 @@ WORKDIR $APP
 COPY package.json yarn.lock $APP/
 RUN yarn install
 
+EXPOSE 4200
+
 COPY . $APP

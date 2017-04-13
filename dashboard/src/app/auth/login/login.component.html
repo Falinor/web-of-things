@@ -11,6 +11,10 @@
       <input mdInput formControlName="password" placeholder="Password" type="password" required>
       <md-hint *ngIf="controls['password'].dirty && controls['password'].hasError('required')">This field is required</md-hint>
     </md-input-container>
+    <md-input-container>
+      <input mdInput formControlName="key" placeholder="Key" type="text" required>
+      <md-hint *ngIf="controls['key'].dirty && controls['password'].hasError('required')">This field is required</md-hint>
+    </md-input-container>
     <button type="submit" [disabled]="loginForm.pristine || loginForm.invalid || submitted" md-raised-button color="accent">
       {{ submitted ? 'Submitted' : 'Submit' }}
     </button>
