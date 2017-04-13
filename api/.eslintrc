@@ -1,10 +1,13 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "standard"
+    "google"
   ],
   "env": {
     "jest": true,
     "jasmine": true
+  },
+  "rules": {
+    "object-curly-spacing": "off"
   }
 }
