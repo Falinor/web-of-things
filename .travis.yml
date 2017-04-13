@@ -1,0 +1,39 @@
+sudo: required
+
+language: node_js
+node_js:
+  - v4
+  - v5
+  - v6
+  - v7
+
+services:
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.12.0
+
+before_install:
+  # Install the latest version docker
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+  - docker --version
+  # Install the latest version of docker-compose
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+
+before_script:
+  - docker-compose -f docker-compose.test.yml -f docker-compose.yml build
+
+script:
+  - docker-compose run api lint
+  - docker-compose run api coverage
+  - docker-compose run web lint
+  - docker-compose run web test
+  - docker-compose run web e2e
+
+after_success:
+  - curl -X POST $DEPLOY_URL
