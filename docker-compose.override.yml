@@ -2,9 +2,16 @@ version: '3'
 
 services:
 
+  proxy:
+    build: ./proxy/
+    container_name: wot-authorization-server-proxy
+    ports:
+      - "2015:2015"
+
   web:
     container_name: wot-authorization-server-web
-    entrypoint: npm start -- --host 0.0.0.0 --live-reload-client "http://0.0.0.0:1337" --proxy-config proxy.conf.json
+    entrypoint: npm
+    command: start -- --host "0.0.0.0" --live-reload-client "http://localhost:2015"
     volumes:
       - ./dashboard/src:/code/src
     links:
@@ -16,7 +23,8 @@ services:
 
   api:
     container_name: wot-authorization-server-api
-    entrypoint: npm start
+    entrypoint: yarn
+    command: start
     volumes:
       - ./api/src:/code/src
     links:

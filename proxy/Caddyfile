@@ -1,0 +1,14 @@
+http://localhost:2015 {
+  gzip
+  tls off
+  log
+  errors
+
+  proxy / http://web:4200 {
+    websocket
+  }
+
+  proxy /api http://api:1338 {
+    without /api
+  }
+}
