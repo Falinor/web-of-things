@@ -1,38 +1,38 @@
-import request from 'supertest-as-promised'
-import { masterKey } from '../../config'
-import { signSync } from '../../services/jwt'
-import express from '../../services/express'
-import routes, { User } from '.'
+import request from 'supertest-as-promised';
+import config from '../../config';
+import { signSync } from '../../services/jwt';
+import express from '../../services/express';
+import routes, { User } from '.';
 
-const app = () => express(routes)
+const app = () => express(routes);
 
-let user1, user2, admin, session1, session2, adminSession
+let user1, user2, admin, session1, session2, adminSession;
 
 beforeEach(async () => {
-  user1 = await User.create({ name: 'user', email: 'a@a.com', password: '123456' })
-  user2 = await User.create({ name: 'user', email: 'b@b.com', password: '123456' })
-  admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' })
-  session1 = signSync(user1.id)
-  session2 = signSync(user2.id)
-  adminSession = signSync(admin.id)
-})
+  user1 = await User.create({ name: 'user', email: 'a@a.com', password: '123456' });
+  user2 = await User.create({ name: 'user', email: 'b@b.com', password: '123456' });
+  admin = await User.create({ email: 'c@c.com', password: '123456', role: 'admin' });
+  session1 = signSync(user1.id);
+  session2 = signSync(user2.id);
+  adminSession = signSync(admin.id);
+});
 
 test('GET /users 200 (admin)', async () => {
   const { status, body } = await request(app())
     .get('/')
-    .query({ access_token: adminSession })
-  expect(status).toBe(200)
-  expect(Array.isArray(body)).toBe(true)
-})
+    .query({ access_token: adminSession });
+  expect(status).toBe(200);
+  expect(Array.isArray(body)).toBe(true);
+});
 
 test('GET /users?page=2&limit=1 200 (admin)', async () => {
   const { status, body } = await request(app())
     .get('/')
-    .query({ access_token: adminSession, page: 2, limit: 1 })
-  expect(status).toBe(200)
-  expect(Array.isArray(body)).toBe(true)
-  expect(body.length).toBe(1)
-})
+    .query({ access_token: adminSession, page: 2, limit: 1 });
+  expect(status).toBe(200);
+  expect(Array.isArray(body)).toBe(true);
+  expect(body.length).toBe(1);
+});
 
 test('GET /users?q=user 200 (admin)', async () => {
   const { status, body } = await request(app())
