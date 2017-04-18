@@ -10,16 +10,16 @@ const roles = ['user', 'admin'];
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true,
-    unique: true,
+    required: [true, 'Email required'],
+    unique: [true, 'This email already exists'],
     trim: true,
     lowercase: true,
-    match: /^\S+@\S+\.\S+$/,
+    match: [/^\S+@\S+\.\S+$/, 'Bad email address format'],
   },
   password: {
     type: String,
-    required: true,
-    minlength: 8,
+    required: [true, 'Password required'],
+    minlength: [8, 'Password must be longer than 8 characters'],
   },
   name: {
     type: String,
@@ -46,7 +46,7 @@ const userSchema = new Schema({
 
 userSchema.path('email').set(function(email) {
   if (!this.picture || this.picture.indexOf('https://gravatar.com') === 0) {
-    const hash = crypto.createHash('md5').update(email).digest('hex')
+    const hash = crypto.createHash('md5').update(email).digest('hex');
     this.picture = `https://gravatar.com/avatar/${hash}?d=identicon`;
   }
 

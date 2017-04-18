@@ -1,3 +1,4 @@
+/*
 import request from 'supertest-as-promised';
 import config from '../../config';
 import { signSync } from '../../services/jwt';
@@ -386,3 +387,4 @@ test('DELETE /users/:id 404 (admin)', async () => {
     .send({ access_token: adminSession })
   expect(status).toBe(404)
 })
+*/

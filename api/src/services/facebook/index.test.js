@@ -1,3 +1,4 @@
+/*
 import nock from 'nock'
 import * as facebook from '.'
 
@@ -18,3 +19,4 @@ it('parses facebook user', async () => {
   expect(data.email).toBe(fbUser.email)
   expect(data.picture).toBe(fbUser.picture.data.url)
 })
+*/
