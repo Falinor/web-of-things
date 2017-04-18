@@ -7,11 +7,11 @@ import * as facebook from '../../services/facebook'
 import * as github from '../../services/github'
 import * as google from '../../services/google'
 import express from '../../services/express'
-import routes from '.'
+import routes from './index';
 
-const app = () => express(routes)
+const app = () => express(routes);
 
-let user
+let user;
 
 beforeEach(async () => {
   user = await User.create({ email: 'a@a.com', password: '123456' })
