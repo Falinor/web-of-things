@@ -30,6 +30,11 @@ export const create = ({ bodymen: { body } }, res, next) =>
           param: 'email',
           message: 'email already registered',
         });
+      } else if (err.name === 'ValidationError') { // Mongoose validation error
+        err.errors = _.mapValues(err.errors, (field) => {
+          return _.pick(field, ['message', 'name', 'kind']);
+        });
+        res.status(400).json(err);
       } else {
         next(err);
       }

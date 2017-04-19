@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import _ from 'lodash';
 import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import randtoken from 'rand-token';
@@ -74,16 +75,13 @@ userSchema.pre('save', function(next) {
 
 userSchema.methods = {
   view(full) {
-    let view = {};
     let fields = ['id', 'name', 'picture'];
 
     if (full) {
       fields = [...fields, 'email', 'createdAt'];
     }
 
-    fields.forEach((field) => { view[field] = this[field] });
-
-    return view;
+    return _.pick(this, fields) || {};
   },
 
   authenticate(password) {

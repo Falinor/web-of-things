@@ -18,16 +18,16 @@ beforeEach(async () => {
   user1 = await User.create({
     name: 'user',
     email: 'a@a.com',
-    password: '123456',
+    password: '12345678',
   });
   user2 = await User.create({
     name: 'user',
     email: 'b@b.com',
-    password: '123456',
+    password: '12345678',
   });
   admin = await User.create({
     email: 'c@c.com',
-    password: '123456',
+    password: '12345678',
     role: 'admin',
   });
   session1 = signSync(user1.id);
@@ -39,6 +39,7 @@ test('GET /users 200 (admin)', async () => {
   const { status, body } = await request(app())
     .get('/')
     .query({ access_token: adminSession });
+
   expect(status).toBe(200);
   expect(Array.isArray(body)).toBe(true);
 });
@@ -123,7 +124,12 @@ test('GET /users/:id 404', async () => {
 test('POST /users 201 (master)', async () => {
   const { status, body } = await request(app())
     .post('/')
-    .send({ access_token: masterKey, email: 'd@d.com', password: '123456' });
+    .send({
+      access_token: config.masterKey,
+      email: 'd@d.com',
+      password: '12345678',
+    });
+
   expect(status).toBe(201);
   expect(typeof body).toBe('object');
   expect(body.email).toBe('d@d.com');
@@ -135,7 +141,7 @@ test('POST /users 201 (master)', async () => {
     .send({
       access_token: config.masterKey,
       email: 'd@d.com',
-      password: '123456',
+      password: '12345678',
       role: 'user',
     });
 
@@ -150,7 +156,7 @@ test('POST /users 201 (master)', async () => {
     .send({
       access_token: config.masterKey,
       email: 'd@d.com',
-      password: '123456',
+      password: '12345678',
       role: 'admin',
     });
 
@@ -165,7 +171,7 @@ test('POST /users 409 (master) - duplicated email', async () => {
     .send({
       access_token: config.masterKey,
       email: 'a@a.com',
-      password: '123456',
+      password: '12345678',
     });
 
   expect(status).toBe(409);
@@ -179,18 +185,19 @@ test('POST /users 400 (master) - invalid email', async () => {
     .send({
       access_token: config.masterKey,
       email: 'invalid',
-      password: '123456'
+      password: '12345678',
     });
 
   expect(status).toBe(400);
   expect(typeof body).toBe('object');
-  expect(body.param).toBe('email');
+  expect(body.errors.email).toBeDefined();
+  expect(body.errors.email.kind).toBe('regexp');
 });
 
 test('POST /users 400 (master) - missing email', async () => {
   const { status, body } = await request(app())
     .post('/')
-    .send({ access_token: config.masterKey, password: '123456' });
+    .send({ access_token: config.masterKey, password: '12345678' });
 
   expect(status).toBe(400);
   expect(typeof body).toBe('object');
@@ -227,7 +234,7 @@ test('POST /users 400 (master) - invalid role', async () => {
     .send({
       access_token: config.masterKey,
       email: 'd@d.com',
-      password: '123456',
+      password: '12345678',
       role: 'invalid'
     });
 
@@ -239,7 +246,7 @@ test('POST /users 400 (master) - invalid role', async () => {
 test('POST /users 401 (admin)', async () => {
   const { status } = await request(app())
     .post('/')
-    .send({ access_token: adminSession, email: 'd@d.com', password: '123456' });
+    .send({ access_token: adminSession, email: 'd@d.com', password: '12345678' });
 
   expect(status).toBe(401);
 });
@@ -247,7 +254,7 @@ test('POST /users 401 (admin)', async () => {
 test('POST /users 401 (user)', async () => {
   const { status } = await request(app())
     .post('/')
-    .send({ access_token: session1, email: 'd@d.com', password: '123456' });
+    .send({ access_token: session1, email: 'd@d.com', password: '12345678' });
 
   expect(status).toBe(401);
 });
@@ -255,7 +262,7 @@ test('POST /users 401 (user)', async () => {
 test('POST /users 401', async () => {
   const { status } = await request(app())
     .post('/')
-    .send({ email: 'd@d.com', password: '123456' });
+    .send({ email: 'd@d.com', password: '12345678' });
 
   expect(status).toBe(401);
 });
@@ -350,19 +357,19 @@ const passwordMatch = async (password, userId) => {
 test('PUT /users/me/password 200 (user)', async () => {
   const { status, body } = await request(app())
     .put('/me/password')
-    .auth('a@a.com', '123456')
-    .send({ password: '654321' });
+    .auth('a@a.com', '12345678')
+    .send({ password: '87654321' });
 
   expect(status).toBe(200);
   expect(typeof body).toBe('object');
   expect(body.email).toBe('a@a.com');
-  expect(await passwordMatch('654321', body.id)).toBe(true);
+  expect(await passwordMatch('87654321', body.id)).toBe(true);
 });
 
 test('PUT /users/me/password 400 (user) - invalid password', async () => {
   const { status, body } = await request(app())
     .put('/me/password')
-    .auth('a@a.com', '123456')
+    .auth('a@a.com', '12345678')
     .send({ password: '321' });
 
   expect(status).toBe(400);
@@ -373,7 +380,7 @@ test('PUT /users/me/password 400 (user) - invalid password', async () => {
 test('PUT /users/me/password 401 (user) - invalid authentication method', async () => {
   const { status } = await request(app())
     .put('/me/password')
-    .send({ access_token: session1, password: '654321' });
+    .send({ access_token: session1, password: '87654321' });
 
   expect(status).toBe(401);
 });
@@ -381,7 +388,7 @@ test('PUT /users/me/password 401 (user) - invalid authentication method', async 
 test('PUT /users/me/password 401', async () => {
   const { status } = await request(app())
     .put('/me/password')
-    .send({ password: '654321' });
+    .send({ password: '87654321' });
 
   expect(status).toBe(401);
 });
@@ -389,19 +396,19 @@ test('PUT /users/me/password 401', async () => {
 test('PUT /users/:id/password 200 (user)', async () => {
   const { status, body } = await request(app())
     .put(`/${user1.id}/password`)
-    .auth('a@a.com', '123456')
-    .send({ password: '654321' });
+    .auth('a@a.com', '12345678')
+    .send({ password: '87654321' });
 
   expect(status).toBe(200);
   expect(typeof body).toBe('object');
   expect(body.email).toBe('a@a.com');
-  expect(await passwordMatch('654321', body.id)).toBe(true);
+  expect(await passwordMatch('87654321', body.id)).toBe(true);
 });
 
 test('PUT /users/:id/password 400 (user) - invalid password', async () => {
   const { status, body } = await request(app())
     .put(`/${user1.id}/password`)
-    .auth('a@a.com', '123456')
+    .auth('a@a.com', '12345678')
     .send({ password: '321' });
 
   expect(status).toBe(400);
@@ -412,8 +419,8 @@ test('PUT /users/:id/password 400 (user) - invalid password', async () => {
 test('PUT /users/:id/password 401 (user) - another user', async () => {
   const { status } = await request(app())
     .put(`/${user1.id}/password`)
-    .auth('b@b.com', '123456')
-    .send({ password: '654321' });
+    .auth('b@b.com', '12345678')
+    .send({ password: '87654321' });
 
   expect(status).toBe(401);
 });
@@ -421,7 +428,7 @@ test('PUT /users/:id/password 401 (user) - another user', async () => {
 test('PUT /users/:id/password 401 (user) - invalid authentication method', async () => {
   const { status } = await request(app())
     .put(`/${user1.id}/password`)
-    .send({ access_token: session1, password: '654321' });
+    .send({ access_token: session1, password: '87654321' });
 
   expect(status).toBe(401);
 });
@@ -429,7 +436,7 @@ test('PUT /users/:id/password 401 (user) - invalid authentication method', async
 test('PUT /users/:id/password 401', async () => {
   const { status } = await request(app())
     .put(`/${user1.id}/password`)
-    .send({ password: '654321' });
+    .send({ password: '87654321' });
 
   expect(status).toBe(401);
 });
@@ -437,8 +444,8 @@ test('PUT /users/:id/password 401', async () => {
 test('PUT /users/:id/password 404 (user)', async () => {
   const { status } = await request(app())
     .put('/123456789098765432123456/password')
-    .auth('a@a.com', '123456')
-    .send({ password: '654321' });
+    .auth('a@a.com', '12345678')
+    .send({ password: '87654321' });
 
   expect(status).toBe(404);
 });
