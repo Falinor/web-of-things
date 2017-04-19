@@ -8,6 +8,7 @@
     "jasmine": true
   },
   "rules": {
+    "arrow-parens": "off",
     "object-curly-spacing": "off"
   }
 }
