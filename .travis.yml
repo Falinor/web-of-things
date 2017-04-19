@@ -2,9 +2,6 @@ sudo: required
 
 language: node_js
 node_js:
-  - v4
-  - v5
-  - v6
   - v7
 
 services:
@@ -29,11 +26,12 @@ before_script:
   - docker-compose -f docker-compose.test.yml -f docker-compose.yml build
 
 script:
-  - docker-compose run api lint
-  - docker-compose run api coverage
-  - docker-compose run web lint
-  - docker-compose run web test
-  - docker-compose run web e2e
+  - docker-compose -f docker-compose.test.yml -f docker-compose.yml run api lint
+  - docker-compose -f docker-compose.test.yml -f docker-compose.yml run api coverage
+  - docker-compose -f docker-compose.test.yml -f docker-compose.yml run web lint
+    # - docker-compose run web test
+    # - docker-compose run web e2e
 
+# TODO(fix): should upload separate Web and API images to Docker Hub.
 after_success:
   - curl -X POST $DEPLOY_URL

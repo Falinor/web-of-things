@@ -10,7 +10,7 @@ services:
 
   web:
     container_name: wot-authorization-server-web
-    entrypoint: npm
+    entrypoint: yarn
     command: start -- --host "0.0.0.0" --live-reload-client "http://localhost:2015"
     volumes:
       - ./dashboard/src:/code/src
