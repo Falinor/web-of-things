@@ -77,11 +77,9 @@ userSchema.pre('save', function(next) {
 userSchema.methods = {
   view(full) {
     let fields = ['id', 'name', 'picture'];
-
     if (full) {
       fields = [...fields, 'email', 'createdAt'];
     }
-
     return _.pick(this, fields) || {};
   },
 

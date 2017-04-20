@@ -1,9 +1,8 @@
-// TODO(imports)
 import _ from 'lodash';
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
 
-import User, { schema } from '../../api/user/model';
+import User from '../../api/user/model';
 
 passport.use('password', new BasicStrategy((email, password, done) => {
   // Build an User
