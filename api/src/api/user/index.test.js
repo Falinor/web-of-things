@@ -215,7 +215,9 @@ test('POST /users 400 (master) - invalid password', async () => {
 
   expect(status).toBe(400);
   expect(typeof body).toBe('object');
-  expect(body.param).toBe('password');
+  expect(typeof body.errors).toBe('object');
+  expect(typeof body.errors.password).toBe('object');
+  expect(body.errors.password.kind).toBe('minlength');
 });
 
 test('POST /users 400 (master) - missing password', async () => {
@@ -235,7 +237,7 @@ test('POST /users 400 (master) - invalid role', async () => {
       access_token: config.masterKey,
       email: 'd@d.com',
       password: '12345678',
-      role: 'invalid'
+      role: 'invalid',
     });
 
   expect(status).toBe(400);
@@ -246,7 +248,11 @@ test('POST /users 400 (master) - invalid role', async () => {
 test('POST /users 401 (admin)', async () => {
   const { status } = await request(app())
     .post('/')
-    .send({ access_token: adminSession, email: 'd@d.com', password: '12345678' });
+    .send({
+      access_token: adminSession,
+      email: 'd@d.com',
+      password: '12345678',
+    });
 
   expect(status).toBe(401);
 });
@@ -267,9 +273,9 @@ test('POST /users 401', async () => {
   expect(status).toBe(401);
 });
 
-test('PUT /users/me 200 (user)', async () => {
+test('PATCH /users/me 200 (user)', async () => {
   const { status, body } = await request(app())
-    .put('/me')
+    .patch('/me')
     .send({ access_token: session1, name: 'test' });
 
   expect(status).toBe(200);
@@ -277,9 +283,9 @@ test('PUT /users/me 200 (user)', async () => {
   expect(body.name).toBe('test');
 });
 
-test('PUT /users/me 200 (user)', async () => {
+test('PATCH /users/me 200 (user)', async () => {
   const { status, body } = await request(app())
-    .put('/me')
+    .patch('/me')
     .send({ access_token: session1, email: 'test@test.com' });
 
   expect(status).toBe(200);
@@ -287,17 +293,17 @@ test('PUT /users/me 200 (user)', async () => {
   expect(body.email).toBe('a@a.com');
 });
 
-test('PUT /users/me 401', async () => {
+test('PATCH /users/me 401', async () => {
   const { status } = await request(app())
-    .put('/me')
+    .patch('/me')
     .send({ name: 'test' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id 200 (user)', async () => {
+test('PATCH /users/:id 200 (user)', async () => {
   const { status, body } = await request(app())
-    .put(`/${user1.id}`)
+    .patch(`/${user1.id}`)
     .send({ access_token: session1, name: 'test' });
 
   expect(status).toBe(200);
@@ -305,9 +311,9 @@ test('PUT /users/:id 200 (user)', async () => {
   expect(body.name).toBe('test');
 });
 
-test('PUT /users/:id 200 (user)', async () => {
+test('PATCH /users/:id 200 (user)', async () => {
   const { status, body } = await request(app())
-    .put(`/${user1.id}`)
+    .patch(`/${user1.id}`)
     .send({ access_token: session1, email: 'test@test.com' });
 
   expect(status).toBe(200);
@@ -315,9 +321,9 @@ test('PUT /users/:id 200 (user)', async () => {
   expect(body.email).toBe('a@a.com');
 });
 
-test('PUT /users/:id 200 (admin)', async () => {
+test('PATCH /users/:id 200 (admin)', async () => {
   const { status, body } = await request(app())
-    .put(`/${user1.id}`)
+    .patch(`/${user1.id}`)
     .send({ access_token: adminSession, name: 'test' });
 
   expect(status).toBe(200);
@@ -325,25 +331,25 @@ test('PUT /users/:id 200 (admin)', async () => {
   expect(body.name).toBe('test');
 });
 
-test('PUT /users/:id 401 (user) - another user', async () => {
+test('PATCH /users/:id 401 (user) - another user', async () => {
   const { status } = await request(app())
-    .put(`/${user1.id}`)
+    .patch(`/${user1.id}`)
     .send({ access_token: session2, name: 'test' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id 401', async () => {
+test('PATCH /users/:id 401', async () => {
   const { status } = await request(app())
-    .put(`/${user1.id}`)
+    .patch(`/${user1.id}`)
     .send({ name: 'test' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id 404 (admin)', async () => {
+test('PATCH /users/:id 404 (admin)', async () => {
   const { status } = await request(app())
-    .put('/123456789098765432123456')
+    .patch('/123456789098765432123456')
     .send({ access_token: adminSession, name: 'test' });
 
   expect(status).toBe(404);
@@ -354,9 +360,9 @@ const passwordMatch = async (password, userId) => {
   return !!await user.authenticate(password);
 };
 
-test('PUT /users/me/password 200 (user)', async () => {
+test('PATCH /users/me/password 200 (user)', async () => {
   const { status, body } = await request(app())
-    .put('/me/password')
+    .patch('/me/password')
     .auth('a@a.com', '12345678')
     .send({ password: '87654321' });
 
@@ -366,36 +372,39 @@ test('PUT /users/me/password 200 (user)', async () => {
   expect(await passwordMatch('87654321', body.id)).toBe(true);
 });
 
-test('PUT /users/me/password 400 (user) - invalid password', async () => {
+test('PATCH /users/me/password 400 (user) - invalid password', async () => {
   const { status, body } = await request(app())
-    .put('/me/password')
+    .patch('/me/password')
     .auth('a@a.com', '12345678')
     .send({ password: '321' });
 
   expect(status).toBe(400);
   expect(typeof body).toBe('object');
-  expect(body.param).toBe('password');
+  expect(typeof body.errors).toBe('object');
+  expect(typeof body.errors.password).toBe('object');
+  expect(body.name).toBe('ValidationError');
+  expect(body.errors.password.kind).toBe('minlength');
 });
 
-test('PUT /users/me/password 401 (user) - invalid authentication method', async () => {
+test('PATCH /users/me/password 401 (user) - invalid authentication method', async () => {
   const { status } = await request(app())
-    .put('/me/password')
+    .patch('/me/password')
     .send({ access_token: session1, password: '87654321' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/me/password 401', async () => {
+test('PATCH /users/me/password 401', async () => {
   const { status } = await request(app())
-    .put('/me/password')
+    .patch('/me/password')
     .send({ password: '87654321' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id/password 200 (user)', async () => {
+test('PATCH /users/:id/password 200 (user)', async () => {
   const { status, body } = await request(app())
-    .put(`/${user1.id}/password`)
+    .patch(`/${user1.id}/password`)
     .auth('a@a.com', '12345678')
     .send({ password: '87654321' });
 
@@ -405,45 +414,48 @@ test('PUT /users/:id/password 200 (user)', async () => {
   expect(await passwordMatch('87654321', body.id)).toBe(true);
 });
 
-test('PUT /users/:id/password 400 (user) - invalid password', async () => {
+test('PATCH /users/:id/password 400 (user) - invalid password', async () => {
   const { status, body } = await request(app())
-    .put(`/${user1.id}/password`)
+    .patch(`/${user1.id}/password`)
     .auth('a@a.com', '12345678')
     .send({ password: '321' });
 
   expect(status).toBe(400);
   expect(typeof body).toBe('object');
-  expect(body.param).toBe('password');
+  expect(typeof body.errors).toBe('object');
+  expect(typeof body.errors.password).toBe('object');
+  expect(body.name).toBe('ValidationError');
+  expect(body.errors.password.kind).toBe('minlength');
 });
 
-test('PUT /users/:id/password 401 (user) - another user', async () => {
+test('PATCH /users/:id/password 401 (user) - another user', async () => {
   const { status } = await request(app())
-    .put(`/${user1.id}/password`)
+    .patch(`/${user1.id}/password`)
     .auth('b@b.com', '12345678')
     .send({ password: '87654321' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id/password 401 (user) - invalid authentication method', async () => {
+test('PATCH /users/:id/password 401 (user) - invalid authentication method', async () => {
   const { status } = await request(app())
-    .put(`/${user1.id}/password`)
+    .patch(`/${user1.id}/password`)
     .send({ access_token: session1, password: '87654321' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id/password 401', async () => {
+test('PATCH /users/:id/password 401', async () => {
   const { status } = await request(app())
-    .put(`/${user1.id}/password`)
+    .patch(`/${user1.id}/password`)
     .send({ password: '87654321' });
 
   expect(status).toBe(401);
 });
 
-test('PUT /users/:id/password 404 (user)', async () => {
+test('PATCH /users/:id/password 404 (user)', async () => {
   const { status } = await request(app())
-    .put('/123456789098765432123456/password')
+    .patch('/123456789098765432123456/password')
     .auth('a@a.com', '12345678')
     .send({ password: '87654321' });
 

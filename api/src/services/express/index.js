@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import { errorHandler as queryErrorHandler } from 'querymen';
 import { errorHandler as bodyErrorHandler } from 'bodymen';
+
+import { validationError } from '../mongoose';
 import config from '../../config';
 
 export default (routes) => {
@@ -22,6 +24,9 @@ export default (routes) => {
   app.use(routes);
   app.use(queryErrorHandler());
   app.use(bodyErrorHandler());
+
+  // Mongoose error handlers
+  app.use(validationError());
 
   return app;
 };

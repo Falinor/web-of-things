@@ -84,7 +84,7 @@ router.post('/',
   create);
 
 /**
- * @api {put} /users/:id Update user
+ * @api {patch} /users/:id Update user
  * @apiName UpdateUser
  * @apiGroup User
  * @apiPermission user
@@ -96,13 +96,13 @@ router.post('/',
  * @apiError 401 Current user or admin access only.
  * @apiError 404 User not found.
  */
-router.put('/:id',
+router.patch('/:id',
   token({ required: true }),
   body({ name, picture }),
   update);
 
 /**
- * @api {put} /users/:id/password Update password
+ * @api {patch} /users/:id/password Update password
  * @apiName UpdatePassword
  * @apiGroup User
  * @apiHeader {String} Authorization Basic authorization with email and password.
@@ -112,7 +112,7 @@ router.put('/:id',
  * @apiError 401 Current user access only.
  * @apiError 404 User not found.
  */
-router.put('/:id/password',
+router.patch('/:id/password',
   passwordAuth(),
   body({ password }),
   updatePassword);

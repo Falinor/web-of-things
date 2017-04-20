@@ -1,6 +1,8 @@
 // TODO(imports)
+import _ from 'lodash';
 import passport from 'passport';
 import { BasicStrategy } from 'passport-http';
+
 import User, { schema } from '../../api/user/model';
 
 passport.use('password', new BasicStrategy((email, password, done) => {
@@ -10,14 +12,9 @@ passport.use('password', new BasicStrategy((email, password, done) => {
   // Validate the input format
   user.validate((err) => {
     if (err) {
-      // Iterate through err.errors object to retain only safe properties
-      // e.g. not password and so on...
-      Object.keys(err.errors).forEach((key) => {
-        err.errors[key] = {
-          message: err.errors[key].message,
-          name: err.errors[key].name,
-          kind: err.errors[key].kind,
-        };
+      // Remove unsafe properties like password and so on...
+      err.errors = _.mapValues(err.errors, (field) => {
+          return _.pick(field, ['message', 'name', 'kind']);
       });
       done(err);
     }

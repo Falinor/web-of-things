@@ -30,16 +30,23 @@ export const create = ({ bodymen: { body } }, res, next) =>
           param: 'email',
           message: 'email already registered',
         });
-      } else if (err.name === 'ValidationError') { // Mongoose validation error
-        err.errors = _.mapValues(err.errors, (field) => {
-          return _.pick(field, ['message', 'name', 'kind']);
-        });
-        res.status(400).json(err);
       } else {
         next(err);
       }
     });
 
+// export const replaceOrCreate = ({ bodymen: { body } }, res, next) =>
+
+/**
+ * Updates an user entity.
+ * Responds to PATCH request.
+ * @param body
+ * @param params
+ * @param user
+ * @param res
+ * @param next
+ * @return
+ */
 export const update = ({ bodymen: { body }, params, user }, res, next) =>
   User.findById(params.id === 'me' ? user.id : params.id)
     .then(notFound(res))
@@ -62,6 +69,15 @@ export const update = ({ bodymen: { body }, params, user }, res, next) =>
     .then(success(res))
     .catch(next);
 
+/**
+ * Updates an user's password.
+ * Responds to PATCH method.
+ * @param body
+ * @param params
+ * @param user
+ * @param res
+ * @param next
+ */
 export const updatePassword = ({ bodymen: { body }, params, user }, res, next) =>
   User.findById(params.id === 'me' ? user.id : params.id)
     .then(notFound(res))

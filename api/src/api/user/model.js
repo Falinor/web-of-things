@@ -4,6 +4,7 @@ import _ from 'lodash';
 import mongoose, { Schema } from 'mongoose';
 import mongooseKeywords from 'mongoose-keywords';
 import randtoken from 'rand-token';
+
 import config from '../../config';
 
 const roles = ['user', 'admin'];

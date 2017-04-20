@@ -1,5 +1,6 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
+
 import config from '../../config';
 
 Object.keys(config.mongo.options).forEach((key) => {
@@ -18,4 +19,6 @@ mongoose.connection.on('error', (err) => {
   process.exit(-1);
 });
 
+// Mongoose error handlers
+export { validationError } from './errors';
 export default mongoose;
