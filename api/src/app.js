@@ -2,7 +2,7 @@ import http from 'http';
 import passport from 'passport';
 
 import config from './config';
-import mongoose from './services/mongoose';
+import mongoose, { initMasterAccount } from './services/mongoose';
 import express from './services/express';
 import api from './api';
 
@@ -10,6 +10,7 @@ const app = express(api);
 const server = http.createServer(app);
 
 mongoose.connect(config.mongo.uri);
+initMasterAccount();
 
 passport.initialize();
 

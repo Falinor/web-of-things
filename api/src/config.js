@@ -16,8 +16,11 @@ const config = {
     root: path.join(__dirname, '..'),
     port: process.env.PORT || 9000,
     ip: process.env.IP || '0.0.0.0',
+    masterAccount: requireProcessEnv('MASTER_ACCOUNT'),
+    masterPassword: requireProcessEnv('MASTER_PASSWORD'),
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
+    tokenExpiration: '2h',
     mongo: {
       options: {
         db: {

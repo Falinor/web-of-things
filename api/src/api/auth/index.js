@@ -32,7 +32,7 @@ router.post('/',
  * @api {post} /auth/facebook Authenticate with Facebook
  * @apiName AuthenticateFacebook
  * @apiGroup Auth
- * @apiParam {String} access_token Facebook user accessToken.
+ * @apiParam {String} access_token Facebook user access_token.
  * @apiSuccess (Success 201) {String} token User `access_token` to be passed to other requests.
  * @apiSuccess (Success 201) {Object} user Current user's data.
  * @apiError 401 Invalid credentials.
@@ -47,7 +47,7 @@ router.post('/facebook',
  * @api {post} /auth/github Authenticate with Github
  * @apiName AuthenticateGithub
  * @apiGroup Auth
- * @apiParam {String} access_token Github user accessToken.
+ * @apiParam {String} access_token Github user access_token.
  * @apiSuccess (Success 201) {String} token User `access_token` to be passed to other requests.
  * @apiSuccess (Success 201) {Object} user Current user's data.
  * @apiError 401 Invalid credentials.
@@ -62,7 +62,7 @@ router.post('/github',
  * @api {post} /auth/google Authenticate with Google
  * @apiName AuthenticateGoogle
  * @apiGroup Auth
- * @apiParam {String} access_token Google user accessToken.
+ * @apiParam {String} access_token Google user access_token.
  * @apiSuccess (Success 201) {String} token User `access_token` to be passed to other requests.
  * @apiSuccess (Success 201) {Object} user Current user's data.
  * @apiError 401 Invalid credentials.
