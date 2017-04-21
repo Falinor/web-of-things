@@ -1,10 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-import compression from 'compression';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import { errorHandler as queryErrorHandler } from 'querymen';
 import { errorHandler as bodyErrorHandler } from 'bodymen';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import cors from 'cors';
+import express from 'express';
+import morgan from 'morgan';
+import { errorHandler as queryErrorHandler } from 'querymen';
 
 import { validationError } from '../mongoose';
 import config from '../../config';

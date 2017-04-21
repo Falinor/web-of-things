@@ -1,24 +1,24 @@
 import request from 'request-promise'
 import Promise from 'bluebird'
 
-const userRequest = (accessToken) => request({
+const userRequest = (access_token) => request({
   uri: 'https://api.github.com/user',
   json: true,
   qs: {
-    access_token: accessToken
+    access_token: access_token
   }
 })
 
-const emailRequest = (accessToken) => request({
+const emailRequest = (access_token) => request({
   uri: 'https://api.github.com/user/emails',
   json: true,
   qs: {
-    access_token: accessToken
+    access_token: access_token
   }
 })
 
-export function getUser(accessToken) {
-  Promise.all([userRequest(accessToken), emailRequest(accessToken)])
+export function getUser(access_token) {
+  Promise.all([userRequest(access_token), emailRequest(access_token)])
     .spread((responseOfUserReq, responseOfEmailReq) => ({
       service: 'github',
       id: responseOfUserReq.id,

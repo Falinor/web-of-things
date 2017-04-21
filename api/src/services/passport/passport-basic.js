@@ -13,7 +13,7 @@ passport.use('password', new BasicStrategy((email, password, done) => {
     if (err) {
       // Remove unsafe properties like password and so on...
       err.errors = _.mapValues(err.errors, (field) => {
-          return _.pick(field, ['message', 'name', 'kind']);
+        return _.pick(field, ['message', 'name', 'kind']);
       });
       done(err);
     }
