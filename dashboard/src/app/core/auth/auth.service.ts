@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { encode } from './basic';
 import { error, json } from '../../shared';
-import { User } from '../user.model';
+import { User } from '../user/user.model';
 
 import { TOKEN_NAME } from './auth-http';
 

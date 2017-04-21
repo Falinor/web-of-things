@@ -3,7 +3,7 @@ import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 
 import { authHttpServiceFactory, AuthGuard, AuthService } from './auth';
-import { UserService } from './user.service';
+import { UserService } from './user/user.service';
 
 @NgModule({
   imports: [

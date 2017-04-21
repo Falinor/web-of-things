@@ -1,4 +1,3 @@
-export * from './auth';
+export * from './auth/';
+export * from './user/';
 export * from './core.module';
-export * from './user.model';
-export * from './user.service';
