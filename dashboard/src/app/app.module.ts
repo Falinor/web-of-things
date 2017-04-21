@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 
 import { CoreModule } from './core';
@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     MaterialModule,
 

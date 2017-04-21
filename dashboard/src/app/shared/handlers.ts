@@ -1,8 +1,11 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-export function error(err: Error): Observable<Error> {
+export function error(err: Response | Error): Observable<Error> {
   //  TODO: handle and log error
+  if (err instanceof Response) {
+    err = new Error(err.statusText);
+  }
   return Observable.throw(err);
 }
 
