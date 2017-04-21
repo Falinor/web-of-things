@@ -1,12 +1,27 @@
-$navbar-background: #333;
-$navbar-width: 64px;
+@import "../assets/scss/variables";
+
+$octo-navbar-background: #333;
+$octo-navbar-width: 64px;
+
+md-icon {
+  color: rgba(255, 255, 255, 0.26);
+  transition: color .3s $octo-material-function;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.octo-main-content {
+  margin-left: $octo-navbar-width;
+}
 
 .octo-navbar {
   display: flex;
   position: absolute;
   height: 100%;
-  width: $navbar-width;
-  background: $navbar-background
+  width: $octo-navbar-width;
+  background: $octo-navbar-background
 }
 
 .octo-navbar__list {
@@ -17,10 +32,6 @@ $navbar-width: 64px;
   flex-grow: 1;
 }
 
-.octo-main-content {
-  margin-left: $navbar-width;
-}
-
-md-icon {
+.octo-navbar__list-item--active > md-icon {
   color: #fff;
 }
