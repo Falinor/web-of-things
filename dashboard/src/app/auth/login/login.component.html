@@ -6,6 +6,7 @@
     <md-input-container>
       <input mdInput formControlName="email" placeholder="Email" type="email" required>
       <md-hint *ngIf="controls['email'].dirty && controls['email'].hasError('required')">This field is required</md-hint>
+      <md-hint *ngIf="controls['email'].dirty && !controls['email'].hasError('required') && controls['email'].hasError('email')">Invalid email</md-hint>
     </md-input-container>
     <md-input-container>
       <input mdInput formControlName="password" placeholder="Password" type="password" required>

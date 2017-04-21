@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MdSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core';
@@ -11,21 +12,21 @@ import { AuthService } from '../../core';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  error: string;
 
   private submitted: boolean;
 
   constructor(
     private authService: AuthService,
     private builder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MdSnackBar
   ) {
     this.submitted = false;
   }
 
   ngOnInit() {
     this.loginForm = this.builder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       key: ['', Validators.required]
     });
@@ -37,14 +38,16 @@ export class LoginComponent implements OnInit {
     this.authService
       .logIn(this.values.email, this.values.password, this.values.key)
       .subscribe(
-        () => this.redirect(this.authService.redirectUrl),
-        (err: Error) => this.error = err.message
+        () => this.redirect(this.authService.redirectUrl || '/'),
+        (err: Error) => {
+          this.snackBar.open(err.message, 'dismiss', { duration: 3000 });
+        }
       );
   }
 
-  private redirect(url: string = '/'): void {
-    this.router.navigate([url]).then(() => {
-      // TODO(snackbar): display success message
+  private redirect(url: string): void {
+    this.router.navigate(['/']).then(() => {
+      this.snackBar.open('Connected', 'dismiss', { duration: 3000 });
     });
   }
 
