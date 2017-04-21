@@ -1,8 +1,7 @@
 <nav class="octo-navbar">
   <ul class="octo-navbar__list">
     <li>
-      <!-- TODO: fix routerLinkActive -->
-      <a routerLink="/" routerLinkActive="octo-navbar__list-item--active">
+      <a routerLink="/" routerLinkActive="octo-navbar__list-item--active" [routerLinkActiveOptions]="{exact: true}">
         <md-icon>home</md-icon>
       </a>
     </li>
