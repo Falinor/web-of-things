@@ -11,7 +11,7 @@ services:
   web:
     container_name: wot-authorization-server-web
     entrypoint: yarn
-    command: start -- --host "0.0.0.0" --live-reload-client "http://localhost:2015"
+    command: start -- --host "0.0.0.0" --live-reload false --live-reload-client "http://localhost:2015"
     volumes:
       - ./dashboard/src:/code/src
     links:
@@ -35,6 +35,8 @@ services:
       - NODE_ENV=development
       - PORT=$API_PORT
       - MONGODB_URI=mongodb://db/wot-authorization-server-api-dev
+      - MASTER_ACCOUNT
+      - MASTER_PASSWORD
       - MASTER_KEY
       - JWT_SECRET
  

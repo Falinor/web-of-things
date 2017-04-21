@@ -25,6 +25,8 @@ services:
       - NODE_ENV=test
       - PORT=$API_PORT
       - MONGODB_URI=mongodb://dbtest/wot-authorization-server-api-test
+      - MASTER_ACCOUNT
+      - MASTER_PASSWORD
       - MASTER_KEY
       - JWT_SECRET
  
