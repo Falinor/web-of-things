@@ -4,11 +4,12 @@ http://localhost:2015 {
   log
   errors
 
-  proxy / http://web:4200 {
-    websocket
-  }
-
   proxy /api http://api:1338 {
     without /api
+    transparent
+  }
+
+  proxy / http://web:4200 {
+    transparent
   }
 }
