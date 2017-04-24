@@ -12,8 +12,7 @@ import { AuthService } from '../../core';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-
-  private submitted: boolean;
+  submitted: boolean;
 
   constructor(
     private authService: AuthService,
@@ -41,7 +40,9 @@ export class LoginComponent implements OnInit {
         () => this.redirect(this.authService.redirectUrl || '/'),
         (err: Error) => {
           this.snackBar.open(err.message, 'dismiss', { duration: 3000 });
-        }
+          this.submitted = false;
+        },
+        () => this.submitted = false // Reset the form
       );
   }
 
