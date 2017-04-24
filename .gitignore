@@ -51,3 +51,5 @@ dist/
 
 # Environment configuration
 *.env
+
+docs.md
