@@ -1,11 +1,12 @@
 import { Router } from 'express';
+
 import { login } from './controller';
 import {
   /*
   facebook,
   github,
-  google,
   */
+  google,
   master,
   password,
 } from '../../services/passport';
@@ -67,10 +68,12 @@ router.post('/github',
  * @apiSuccess (Success 201) {Object} user Current user's data.
  * @apiError 401 Invalid credentials.
  */
-/*
 router.post('/google',
+  google(true),
+  login);
+
+router.post('/google/callback',
   google(),
-  login)
-  */
+  login);
 
 export default router;

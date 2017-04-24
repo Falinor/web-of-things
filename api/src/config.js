@@ -20,7 +20,14 @@ const config = {
     masterPassword: requireProcessEnv('MASTER_PASSWORD'),
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
-    tokenExpiration: '2h',
+    tokenExpiration: '1h',
+    providers: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      },
+      // TODO(facebook)
+    },
     mongo: {
       options: {
         db: {

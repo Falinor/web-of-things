@@ -135,6 +135,7 @@ test('POST /auth/github 401 - missing token', async () => {
     .post('/github')
   expect(status).toBe(401)
 })
+*/
 
 test('POST /auth/google 201', async () => {
   stub(google, 'getUser', () => Promise.resolve({
@@ -159,4 +160,3 @@ test('POST /auth/google 401 - missing token', async () => {
     .post('/google')
   expect(status).toBe(401)
 })
-*/

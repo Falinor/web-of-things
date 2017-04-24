@@ -78,7 +78,7 @@ userSchema.methods = {
   view(full) {
     let fields = ['id', 'name', 'picture'];
     if (full) {
-      fields = [...fields, 'email', 'createdAt'];
+      fields = [...fields, 'email', 'role', 'services', 'createdAt'];
     }
     return _.pick(this, fields) || {};
   },
@@ -92,21 +92,23 @@ userSchema.methods = {
 userSchema.statics = {
   roles,
 
-  createFromService({ service, id, email, name, picture }) {
-    return this.findOne({ $or: [{ [`services.${service}`]: id }, { email }] })
+  createFromService({ provider, id, emails, displayName, picture }) {
+    // WARN(unsafe)
+    const email = emails[0];
+    return this.findOne({ $or: [{ [`services.${provider}`]: id }, { email }] })
       .then((user) => {
         if (user) {
-          user.services[service] = id;
-          user.name = name;
+          user.services[provider] = id;
+          user.name = displayName;
           user.picture = picture;
           return user.save();
         } else {
           const password = randtoken.generate(16);
           return this.create({
-            services: { [service]: id },
+            services: { [provider]: id },
             email,
             password,
-            name,
+            displayName,
             picture,
           });
         }
