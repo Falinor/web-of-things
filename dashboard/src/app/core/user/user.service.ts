@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthHttp } from 'angular2-jwt';
+import { FacebookService, InitParams } from 'ngx-facebook';
 
 import { User } from './user.model';
 import { Service } from '../../shared/index';
@@ -10,8 +11,16 @@ const ENDPOINT = 'users';
 @Injectable()
 export class UserService extends Service<User> {
 
-  constructor(protected authHttp: AuthHttp) {
+  constructor(protected authHttp: AuthHttp,
+              private fbService: FacebookService) {
     super(authHttp, ENDPOINT);
+    const fbParams: InitParams = {
+      // TODO
+    };
+  }
+
+  getFacebookFriends() {
+
   }
 
 }

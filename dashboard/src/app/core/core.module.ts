@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
+import { FacebookService } from 'ngx-facebook';
 
 import { authHttpServiceFactory, AuthGuard, AuthService } from './auth';
 import { UserService } from './user/user.service';
@@ -9,6 +10,7 @@ import { UserService } from './user/user.service';
   imports: [
   ],
   providers: [
+    FacebookService,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
