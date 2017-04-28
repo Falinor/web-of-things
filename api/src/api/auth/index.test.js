@@ -1,8 +1,10 @@
 import request from 'supertest';
+import { stub } from 'sinon';
 
 import { User } from '../user';
 import express from '../../services/express';
 import { verify } from '../../services/jwt';
+import * as passport from '../../services/passport/google';
 import config from '../../config';
 import routes from './index';
 
@@ -137,26 +139,28 @@ test('POST /auth/github 401 - missing token', async () => {
 })
 */
 
-test('POST /auth/google 201', async () => {
-  stub(google, 'getUser', () => Promise.resolve({
-    service: 'google',
-    id: '123',
-    name: 'user',
-    email: 'b@b.com',
-    picture: 'test.jpg'
-  }))
+test.only('POST /auth/google 201', async () => {
+  stub(passport, 'google').callsFake(() => Promise.resolve({
+    provider: 'google',
+      id: '123',
+      name: 'user',
+      emails: ['b@b.com'],
+      picture: 'test.jpg',
+  }));
   const { status, body } = await request(app())
     .post('/google')
-    .send({ access_token: '123' })
-  expect(status).toBe(201)
-  expect(typeof body).toBe('object')
-  expect(typeof body.token).toBe('string')
-  expect(typeof body.user).toBe('object')
-  expect(await verify(body.token)).toBeTruthy()
-})
+    .send({ access_token: '123' });
+
+  expect(status).toBe(201);
+  expect(typeof body).toBe('object');
+  expect(typeof body.token).toBe('string');
+  expect(typeof body.user).toBe('object');
+  expect(await verify(body.token)).toBeTruthy();
+});
 
 test('POST /auth/google 401 - missing token', async () => {
   const { status } = await request(app())
-    .post('/google')
-  expect(status).toBe(401)
-})
+    .post('/google');
+
+  expect(status).toBe(401);
+});

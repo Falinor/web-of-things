@@ -15,6 +15,9 @@ passport.use('token', new JwtStrategy({
     ExtractJwt.fromBodyField('access_token'),
     ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
   ]),
+  // issuer: config.jwtIssuer (in production mode)
+  // audience: config.jwtAudience (in production mode)
+  passReqToCallback: true,
 }, ({ id }, done) => {
   User.findById(id).then((user) => {
     done(null, user);

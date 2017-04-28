@@ -22,6 +22,7 @@ passport.use('google', new GoogleStrategy({
  * Authenticate using Google
  */
 export const google = (withScopes = false) => {
+  console.log('google called');
   const opts = { session: false };
   if (withScopes) {
     opts.scope = ['openid profile email'];

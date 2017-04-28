@@ -15,5 +15,3 @@ passport.use('github', new BearerStrategy((token, done) => {
  */
 export const github = () =>
   passport.authenticate('github', { session: false });
-
-
