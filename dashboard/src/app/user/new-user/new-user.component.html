@@ -1,10 +1,13 @@
-<section>
-  <md-menu #socialMenu="mdMenu">
-    <button *ngFor="let nw of networks" md-menu-item (click)="selectNetwork(nw)">
-      {{ nw }}
-    </button>
-  </md-menu>
-  <button md-button [mdMenuTriggerFor]="socialMenu">
-    {{ selectedNetwork }}
+<ng-container *ngIf="init && !connected">
+  <button md-raised-button color="primary" (click)="logInWithFB()">
+    LOG IN WITH FACEBOOK
   </button>
+</ng-container>
+<section>
+  <!-- Facebook users found by the search query -->
+  <ul>
+    <li>
+
+    </li>
+  </ul>
 </section>

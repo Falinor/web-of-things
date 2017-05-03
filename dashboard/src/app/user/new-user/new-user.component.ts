@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FacebookService, LoginResponse } from 'ngx-facebook';
 
 @Component({
@@ -6,40 +6,42 @@ import { FacebookService, LoginResponse } from 'ngx-facebook';
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.scss']
 })
-export class NewUserComponent {
-  networks: string[];
-  selectedNetwork: string;
+export class NewUserComponent implements OnInit {
+  init: boolean;
+  connected: boolean;
 
   constructor(private fb: FacebookService) {
-    this.selectedNetwork = 'CHOOSE A NETWORK';
-    this.networks = ['Facebook', 'Google'];
-    fb.init({
-      appId: '753141531523653',
-      version: 'v2.8'
-    });
+    this.init = false;
   }
 
-  getFriends(id: string = 'me') {
-    this.fb.api(`/${id}/friends`)
-      .then(res => console.log(res))
+  ngOnInit(): void {
+    this.fb.init({ appId: '207597153087997', version: 'v2.9' })
+      .then(() => this.isLoggedIn())
+      .then(() => this.init = true)
+      .then(status => this.connected = status)
+      .catch(console.error);
+  }
+
+  findByName(name: string) {
+    return this.fb.api(`/search?q=${name}&type=user`)
+      .then(console.log)
       .catch(err => {
         if (err.type === 'OAuthException') {
-          this.logIn().then(() => this.getFriends());
+          this.logInWithFB().then(() => this.findByName(name));
         }
       });
   }
 
-  logIn(): Promise<void> {
-    return this.fb.login({ scope: 'user_friends' })
-      .then(console.log)
+  isLoggedIn(): Promise<boolean> {
+    return this.fb.getLoginStatus()
+      .then(res => res.status === 'connected')
       .catch(console.error);
   }
 
-  selectNetwork(nw: string) {
-    this.selectedNetwork = nw;
-    if (nw === 'Facebook') {
-      this.getFriends();
-    }
+  logInWithFB(): Promise<void> {
+    return this.fb.login()
+      .then(console.log)
+      .catch(console.error);
   }
 
 }
