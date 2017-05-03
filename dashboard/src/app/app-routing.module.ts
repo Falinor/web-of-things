@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: 'users',
     loadChildren: './user/user.module#UserModule',
-    canActivate: [AuthGuard]
+    canActivate: [/*AuthGuard*/]
   },
   { path: 'login', loadChildren: './auth/auth.module#AuthModule' },
   { path: '**', loadChildren: './error/error.module#ErrorModule' }

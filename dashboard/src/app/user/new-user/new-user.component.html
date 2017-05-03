@@ -1,0 +1,10 @@
+<section>
+  <md-menu #socialMenu="mdMenu">
+    <button *ngFor="let nw of networks" md-menu-item (click)="selectNetwork(nw)">
+      {{ nw }}
+    </button>
+  </md-menu>
+  <button md-button [mdMenuTriggerFor]="socialMenu">
+    {{ selectedNetwork }}
+  </button>
+</section>

@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         () => this.redirect(this.authService.redirectUrl || '/'),
         (err: Error) => {
-          this.snackBar.open(err.message, 'dismiss', { duration: 3000 });
+          this.snackBar.open(err.message, 'dismiss', {duration: 3000});
           this.submitted = false;
         },
         () => this.submitted = false // Reset the form
