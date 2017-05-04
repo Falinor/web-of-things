@@ -4,10 +4,28 @@
   </button>
 </ng-container>
 <section>
+  <md-input-container>
+    <input mdInput #in placeholder="Full name" (keyup.enter)="findByName(in.value)" (blur)="findByName(in.value)">
+  </md-input-container>
   <!-- Facebook users found by the search query -->
+  <section class="octo-users">
+    <md-list>
+      <md-list-item *ngFor="let user of users" (click)="onSelectUser(user)">
+        <img md-list-avatar [src]="user.picture" [alt]="user.name">
+        <h3 md-line>{{ user.name }}</h3>
+      </md-list-item>
+    </md-list>
+    <button *ngIf="nextPage" md-button type="button" (click)="onNextPage()">
+      View more
+    </button>
+  </section>
   <ul>
-    <li>
-
-    </li>
+    <md-card *ngFor="let user of selectedUsers">
+      <md-card-header>
+        <img md-card-avatar [src]="user.picture">
+        <md-card-title>{{ user.name }}</md-card-title>
+        <md-card-subtitle>Facebook</md-card-subtitle>
+      </md-card-header>
+    </md-card>
   </ul>
 </section>
